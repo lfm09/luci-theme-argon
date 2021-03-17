@@ -35,11 +35,15 @@
 @import url("fonts.css?v=3");
 @import url("pure-min.css?v=1");
 :root {
+  /** general **/
   --primary: #5e72e4;
-  --dark-primary: #5065d8;
+  --dark-primary: #483d8b;
+  --background-color: #f4f5f7;
+  --font-color: #525f7f;
+  /** login form **/
+  --login-form-background-color: #ffffff;
   --darker: black;
   --default: #525461;
-  --background-color: #f4f5f7;
   --warning: #fb6340;
   --footer-color: #aaa;
   --menubar-background: #fff;
@@ -68,11 +72,49 @@
   --dark: #212529;
   --neutral: #fff;
   --login-form-bg-color: rgba(244, 245, 247, 0.8);
-  --breakpoint-xs: 0;
-  --breakpoint-sm: 576px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 992px;
-  --breakpoint-xl: 1200px;
+  --blur-radius: 10px;
+  --blur-opacity: 0.5;
+  --blur-radius-dark: 10px;
+  --blur-opacity-dark: 0.5;
+  --font-family-sans-serif: "Google Sans", "Microsoft Yahei", "WenQuanYi Micro Hei", "sans-serif", "Helvetica Neue", "Helvetica", "Hiragino Sans GB";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --font-family-normal: Open Sans, PingFangSC-Regular, Microsoft Yahei, WenQuanYi Micro Hei, "Helvetica Neue", Helvetica, Hiragino Sans GB, sans-serif;
+}
+[data-theme="dark"] {
+  --primary: #483d8b;
+  --dark-primary: #483d8b;
+  --background-color: #1e1e1e;
+  --font-color: #cccccc;
+  --darker: black;
+  --default: #525461;
+  --warning: #fb6340;
+  --footer-color: #aaa;
+  --menubar-background: #fff;
+  --menubar-scrollbar-thumb: #f6f9fc;
+  --menubar-text-color: #4c4c4c;
+  --blue: #5e72e4;
+  --indigo: #5603ad;
+  --purple: #8965e0;
+  --pink: #f3a4b5;
+  --red: #f5365c;
+  --orange: #fb6340;
+  --yellow: #ffd600;
+  --green: #2dce89;
+  --teal: #11cdef;
+  --cyan: #2bffc6;
+  --white: #fff;
+  --gray: #8898aa;
+  --gray-dark: #32325d;
+  --light: #ced4da;
+  --lighter: #e9ecef;
+  --secondary: #f7fafc;
+  --success: #2dce89;
+  --info: #11cdef;
+  --danger: #f5365c;
+  --light: #adb5bd;
+  --dark: #212529;
+  --neutral: #fff;
+  --login-form-bg-color: rgba(244, 245, 247, 0.8);
   --blur-radius: 10px;
   --blur-opacity: 0.5;
   --blur-radius-dark: 10px;
@@ -98,6 +140,8 @@ body {
   font-size: 0.875rem;
   background-color: #f4f5f7;
   background-color: var(--background-color);
+  color: #525f7f;
+  color: var(--font-color);
 }
 * {
   margin: 0;
@@ -123,6 +167,38 @@ a:hover {
 }
 li {
   list-style-type: none;
+}
+@-webkit-keyframes sparkle {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -64px;
+  }
+}
+@-moz-keyframes sparkle {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -64px;
+  }
+}
+@-o-keyframes sparkle {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -64px;
+  }
+}
+@keyframes sparkle {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 -64px;
+  }
 }
 /***********************
 *
@@ -162,7 +238,7 @@ li {
   background-image: url(../img/volume_off.svg);
 }
 .login-page .main-bg {
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   left: 0;
@@ -233,7 +309,6 @@ li {
   text-align: center;
   color: #fb6340;
   color: var(--warning);
-  padding-bottom: 2rem;
 }
 .login-page .login-container .login-form .form-login .input-group {
   margin-bottom: 1.25rem;
@@ -320,13 +395,12 @@ li {
   border-image: initial;
   padding: 10px 0px;
   margin: 30px 0px 100px;
-  transition: all 0.3s;
+  transition: all 0.3s !important;
   letter-spacing: 0.8rem;
 }
 .login-page .login-container .login-form .cbi-button-apply:hover,
 .login-page .login-container .login-form .cbi-button-apply :focus {
-  background-color: #5065d8 !important;
-  background-color: var(--dark-primary) !important;
+  opacity: 0.9;
 }
 .login-page .login-container footer {
   box-sizing: border-box;
@@ -340,7 +414,8 @@ li {
   z-index: 10;
   color: #525461;
   color: var(--default);
-  position: relative;
+  position: absolute;
+  bottom: 0;
 }
 .login-page .login-container footer .ftc {
   position: absolute;
@@ -374,7 +449,7 @@ header {
   position: relative;
 }
 header .container {
-  margin-top: 0.5rem;
+  margin-top: rem;
   padding: 0.5rem 1rem 0 1rem;
 }
 header .container .pull-right > * {
@@ -571,6 +646,7 @@ footer a {
   left: 0.8rem;
   content: "\e915";
   color: #5e72e4;
+  color: var(--primary);
 }
 .main .main-left .nav li.slide .menu::after {
   position: absolute;
@@ -596,6 +672,7 @@ footer a {
   cursor: pointer;
   color: #fff;
   background: #5e72e4;
+  background: var(--primary);
 }
 .main .main-left .nav li.slide .menu:hover a,
 .main .main-left .nav li.slide .menu.active a {
@@ -620,6 +697,7 @@ footer a {
 .main .main-left .nav li.slide .menu[data-title=Status]:before {
   content: "\e906";
   color: #5e72e4;
+  color: var(--primary);
 }
 .main .main-left .nav li.slide .menu[data-title=System]:before {
   content: "\e90a";
@@ -656,6 +734,7 @@ footer a {
 .main .main-left .nav li.slide .menu[data-title=Control]:before {
   content: "\e912";
   color: #5e72e4;
+  color: var(--primary);
 }
 .main .main-left .nav li.slide .menu[data-title=Asterisk]:before {
   content: "\e914";
@@ -683,6 +762,7 @@ footer a {
   left: 0;
   bottom: 0;
   background-color: #5e72e4;
+  background-color: var(--primary);
   transition: all 0.2s;
 }
 .main .main-left .nav li.slide .slide-menu li a:hover::after {
@@ -695,6 +775,9 @@ footer a {
 .main .main-left .nav li.slide .slide-menu .active a::after {
   color: #000;
   width: 100%;
+}
+.main .main-left .nav li.slide:last-child > .menu::after {
+  content: "";
 }
 .main .main-right {
   width: 85%;
@@ -757,6 +840,7 @@ footer a {
   text-align: center;
   margin-top: 2rem;
   color: #5e72e4;
+  color: var(--primary);
   font-size: 2rem;
 }
 .main .loading span .loading-img {
@@ -842,7 +926,9 @@ form.inline + form.inline,
 .cbi-button-edit {
   color: #fff !important;
   background-color: #5e72e4 !important;
+  background-color: var(--primary) !important;
   border-color: #5e72e4 !important;
+  border-color: var(--primary) !important;
 }
 .cbi-button-add {
   margin-left: 1.5rem;
@@ -978,8 +1064,10 @@ input[type="checkbox"] {
 }
 input[type="checkbox"]:checked {
   border: 1px solid #5e72e4;
+  border: 1px solid var(--primary);
   background-image: url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 8 8\'%3e%3cpath fill=\'%23fff\' d=\'M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z\'/%3e%3c/svg%3e') !important;
   background-color: #5e72e4;
+  background-color: var(--primary);
   background-size: 70%;
   background-repeat: no-repeat;
   background-position: center;
@@ -1001,8 +1089,10 @@ ul li .cbi-input-checkbox {
 }
 .cbi-input-radio:checked {
   border: 1px solid #5e72e4;
+  border: 1px solid var(--primary);
   background-image: url('data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'-4 -4 8 8\'%3e%3ccircle r=\'3\' fill=\'%23fff\'/%3e%3c/svg%3e') !important;
   background-color: #5e72e4;
+  background-color: var(--primary);
   background-size: 70%;
   background-repeat: no-repeat;
   background-position: center;
@@ -1123,6 +1213,7 @@ small {
   padding: 0.2rem 0.6rem;
   font-size: 1.2rem;
   color: #5e72e4 !important;
+  color: var(--primary) !important;
 }
 .cbi-optionals {
   padding: 1rem 1rem 0 1rem;
@@ -1227,6 +1318,10 @@ input[name="nslookup"] {
 #memtotal > div > div {
   height: 100% !important;
   background-color: #5e72e4 !important;
+  background-color: var(--primary) !important;
+  background-image: url(../img/trafficbar.png);
+  background-position: left top;
+  animation: sparkle 1500ms linear infinite;
 }
 /* fix multiple table */
 table table,
@@ -1577,6 +1672,7 @@ input {
 select:not([multiple="multiple"]):focus,
 input:focus {
   border-color: #5e72e4;
+  border-color: var(--primary);
   outline: 0;
   background-color: #fff;
   box-shadow: 0 3px 9px rgba(50, 50, 9, 0), 3px 4px 8px rgba(94, 114, 228, 0.1);
@@ -1711,6 +1807,7 @@ div > .table > .tbody > .tr:nth-of-type(2n) {
 }
 .notice {
   background-color: #5e72e4 !important;
+  background-color: var(--primary) !important;
   color: #fff !important;
 }
 .success {
@@ -1720,8 +1817,8 @@ div > .table > .tbody > .tr:nth-of-type(2n) {
 }
 .errorbox,
 .alert-message {
-  margin: 2rem 0 0 0;
-  padding: 2rem;
+  margin: 0 0 0 0;
+  padding: 1rem 2rem;
   border: 0;
   font-weight: normal;
   font-style: normal;
@@ -1737,6 +1834,9 @@ div > .table > .tbody > .tr:nth-of-type(2n) {
   color: #fff;
   background-color: #f0ad4e;
   border-color: #eea236;
+}
+.alert-message.warning {
+  margin-bottom: 1rem;
 }
 .error {
   color: red;
@@ -1902,7 +2002,9 @@ td > table > tbody > tr > td {
 .tabs li:hover {
   cursor: pointer;
   border-bottom: 0.18751rem solid #5e72e4;
+  border-bottom: 0.18751rem solid var(--primary);
   color: #5e72e4;
+  color: var(--primary);
   background-color: #dce1fe;
   margin-bottom: 0;
   border-radius: 0;
@@ -1910,6 +2012,7 @@ td > table > tbody > tr > td {
 .tabs li[class~="active"] a,
 .tabs li:hover a {
   color: #5e72e4;
+  color: var(--primary);
 }
 .tabs li {
   font-size: 0.875rem;
@@ -1924,6 +2027,7 @@ td > table > tbody > tr > td {
 }
 .tabs li:hover {
   border-bottom: 0.18751rem solid #5e72e4;
+  border-bottom: 0.18751rem solid var(--primary);
 }
 .cbi-tabmenu {
   color: white;
@@ -1959,7 +2063,9 @@ td > table > tbody > tr > td {
 .cbi-tabmenu li:hover {
   cursor: pointer;
   border-bottom: 0.18751rem solid #5e72e4;
+  border-bottom: 0.18751rem solid var(--primary);
   color: #5e72e4;
+  color: var(--primary);
   background-color: #dce1fe;
   margin-bottom: 0;
 }
@@ -1968,12 +2074,14 @@ td > table > tbody > tr > td {
 }
 .cbi-tabmenu li[class~="cbi-tab"] {
   border-bottom: 0.18751rem solid #5e72e4;
-  color: #5e72e4;
+  border-bottom: 0.18751rem solid var(--primary);
+  color: var(--primary);
   background-color: #dce1fe;
   margin-bottom: 0;
 }
 .cbi-tabmenu li[class~="cbi-tab"] a {
   color: #5e72e4;
+  color: var(--primary);
 }
 .cbi-tab-descr {
   margin: 1rem 1.5rem;
@@ -2070,11 +2178,13 @@ td > table > tbody > tr > td {
 .cbi-dropdown[open] {
   position: relative;
   border-color: #5e72e4;
+  border-color: var(--primary);
 }
 .cbi-dropdown[open] > ul.dropdown {
   display: block;
   background: #fff;
   border-color: #5e72e4;
+  border-color: var(--primary);
   position: absolute;
   z-index: 1000;
   max-width: none;
@@ -2370,6 +2480,7 @@ td > .ifacebadge,
 }
 .ifacebox-head.active {
   background: #5e72e4;
+  background: var(--primary);
   color: #fff;
 }
 .ifacebox-body {
@@ -2539,6 +2650,7 @@ input[name="nslookup"] {
 .node-system-packages > .main .cbi-section-node:first-child .cbi-value-last div[style="margin:3px 0; width:300px; height:10px; border:1px solid #000000; background-color:#80C080"] div {
   border-right: 0 !important;
   background-color: #5e72e4 !important;
+  background-color: var(--primary) !important;
 }
 .node-system-leds .cbi-section em {
   display: block;
@@ -2619,6 +2731,9 @@ input[name="nslookup"] {
 .node-network-diagnostics input {
   margin: 0.25rem !important;
 }
+.node-network-wireless .cbi-button-add {
+  margin-left: 0;
+}
 /* fix nlbw/display*/
 #detail-bubble.in {
   z-index: 500;
@@ -2661,9 +2776,6 @@ input[name="nslookup"] {
   }
   .node-status-iptables > .main fieldset li > a {
     padding: 0.3rem 0.6rem;
-  }
-  select {
-    min-width: 15rem;
   }
 }
 @media screen and (max-width: 1280px) {
@@ -2780,6 +2892,9 @@ input[name="nslookup"] {
     margin-left: 0rem !important;
     width: 100%;
   }
+  .login-page .login-container .login-form {
+    max-width: 480px;
+  }
   .login-page .login-container .login-form .form-login .input-group::before {
     color: #525461;
   }
@@ -2792,9 +2907,6 @@ input[name="nslookup"] {
   fieldset {
     padding: 0;
     margin: 1rem 0 0 0;
-  }
-  .tabs {
-    margin: 0.5rem 0rem;
   }
   .toggle {
     margin: 0;
@@ -2834,12 +2946,22 @@ input[name="nslookup"] {
   .cbi-value input[type="text"] {
     min-width: 15rem;
   }
-  select {
-    width: 15rem;
+  select,
+  input {
+    width: 100% !important;
     min-width: auto;
+    margin: 0.25rem 0;
+  }
+  input {
+    box-sizing: border-box;
+  }
+  .cbi-value > .cbi-value-field > div > input {
+    width: calc(100% - 1.5rem) !important;
   }
   .cbi-value > .cbi-value-field {
     display: inline-block;
+    width: 100%;
+    position: relative;
   }
   .cbi-value-field .cbi-input-checkbox,
   .cbi-value-field .cbi-input-radio {
@@ -2863,7 +2985,7 @@ input[name="nslookup"] {
     font-size: 0.9rem;
   }
   .mobile-hide {
-    display: none;
+    display: none !important;
   }
   .node-status-realtime table > tbody > tr > td,
   .node-status-realtime table > tfoot > tr > td,
@@ -2916,6 +3038,24 @@ input[name="nslookup"] {
   .cbi-value input[type="text"]:has(+ img) {
     width: 10rem !important;
   }
+  .cbi-button-add {
+    margin-left: 0.5rem;
+  }
+  .node-network-network .cbi-section-table tr,
+  .node-network-network .cbi-section-table td {
+    display: block;
+  }
+  .node-network-network .cbi-section-table td {
+    width: 100% !important;
+    text-align: center !important;
+    padding: 0.8rem 1.5rem !important;
+  }
+  .node-network-network .cbi-section-table .cbi-section-table-titles {
+    display: flex;
+  }
+  .node-network-network .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
+    flex: 1 !important;
+  }
   .node-services-vssr .status-info {
     font-size: 0.75rem;
   }
@@ -2925,420 +3065,5 @@ input[name="nslookup"] {
   .node-services-vssr .icon-con img {
     width: 2.3rem !important;
     height: auto;
-  }
-}
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #1e1e1e;
-    color: #cccccc;
-  }
-  .login-page .login-container .login-form {
-    background-color: #1e1e1e;
-  }
-  .login-page .login-container .login-form .brand {
-    color: #adb5bd;
-  }
-  .login-page .login-container .login-form .form-login .input-group::before {
-    color: #adb5bd;
-  }
-  .login-page .login-container .login-form .form-login .input-group input {
-    background-color: transparent !important;
-    color: #adb5bd;
-    border-bottom: #adb5bd 1px solid !important;
-    border-radius: 0;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    box-shadow: none;
-  }
-  .login-page .login-container .login-form .form-login .input-group input:focus {
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-  }
-  .login-page .login-container .login-form .form-login .cbi-button-apply {
-    background-image: linear-gradient(-135deg, #6c61ab 0%, #594ca9 100%);
-  }
-  .login-page .login-container .login-form .form-login .cbi-button-apply:hover,
-  .login-page .login-container .login-form .form-login .cbi-button-apply:focus {
-    background-image: linear-gradient(-135deg, #554c8a 0%, #483d8b 100%);
-  }
-  .login-page .login-container footer {
-    color: #adb5bd;
-  }
-  header::after {
-    background-color: #1e1e1e !important;
-  }
-  .main .main-left {
-    background-color: #333333 !important;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.15);
-  }
-  .main .main-left .sidenav-header .brand {
-    color: #ccc;
-  }
-  .main .main-left .nav .slide .slide-menu .active a {
-    color: #cccccc;
-  }
-  .main .main-left .nav .slide .slide-menu .active a::after {
-    background-color: #cccccc !important;
-  }
-  .main .main-left .nav .slide .slide-menu li a {
-    color: #cccccc;
-  }
-  .main .main-left .nav .slide .slide-menu li a:hover {
-    background: none !important;
-  }
-  .main .main-left .nav .slide .menu.active {
-    background-color: darkslateblue !important;
-    color: #cccccc !important;
-  }
-  .main .main-left .nav .slide .menu.active a::after {
-    background-color: #cccccc !important;
-  }
-  .main .main-left .nav li a {
-    color: #cccccc !important;
-  }
-  .main .main-left .nav li a:hover {
-    background-color: darkslateblue !important;
-    color: #cccccc !important;
-  }
-  .main .main-left::-webkit-scrollbar-thumb {
-    background-color: #252526 !important;
-  }
-  .main .main-left::-webkit-scrollbar-track {
-    background-color: #333;
-  }
-  .main .main-right {
-    background-color: #1e1e1e;
-  }
-  h2 {
-    color: #ccc;
-    background: #333333;
-  }
-  h3 {
-    color: #ccc;
-    border-bottom: 0;
-    background: #333333;
-  }
-  a:-webkit-any-link {
-    color: -webkit-link;
-    cursor: pointer;
-    color: darkslateblue;
-  }
-  input:-webkit-autofill {
-    background-color: #3c3c3c !important;
-  }
-  .cbi-value-field .cbi-input-apply,
-  .cbi-button-apply,
-  .cbi-button-edit {
-    color: #fff !important;
-    background-color: darkslateblue !important;
-    border-color: darkslateblue !important;
-  }
-  .cbi-section em {
-    color: darkslateblue;
-  }
-  header.bg-primary {
-    background-color: #1e1e1e !important;
-  }
-  .cbi-map-descr {
-    color: #ccc;
-  }
-  .cbi-section {
-    background: none;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
-  }
-  .panel-title {
-    color: #ccc;
-    background-color: #333333;
-    border-bottom: 0px;
-  }
-  table > tbody > tr > td,
-  table > tfoot > tr > td,
-  table > thead > tr > td {
-    color: #ccc;
-  }
-  fieldset > table > tbody > tr:nth-of-type(2n) {
-    background-color: #252526;
-  }
-  table > tbody > tr > td,
-  table > tfoot > tr > td,
-  table > thead > tr > td {
-    border-top: 1px solid #252526;
-  }
-  #swaptotal > div > div,
-  #swapfree > div > div,
-  #memfree > div > div,
-  #membuff > div > div,
-  #conns > div > div,
-  #memtotal > div > div {
-    background-color: #32325d !important;
-  }
-  #swaptotal > div > div > div > small,
-  #swapfree > div > div > div > small,
-  #memfree > div > div > div > small,
-  #membuff > div > div > div > small,
-  #conns > div > div > div > small,
-  #memtotal > div > div > div > small {
-    color: #ccc !important;
-  }
-  .node-system-packages > .main .cbi-section-node:first-child .cbi-value-last {
-    line-height: 1.8em;
-  }
-  .node-system-packages > .main .cbi-section-node:first-child .cbi-value-last div[style="margin:3px 0; width:300px; height:10px; border:1px solid #000000; background-color:#80C080"] {
-    border: 1px solid #999999 !important;
-    background-color: transparent !important;
-  }
-  .node-system-packages > .main .cbi-section-node:first-child .cbi-value-last div[style="margin:3px 0; width:300px; height:10px; border:1px solid #000000; background-color:#80C080"] div {
-    background-color: #32325d !important;
-  }
-  table > tbody > tr > th,
-  table > tfoot > tr > th,
-  table > thead > tr > th {
-    background-color: #252526;
-    border-bottom: black 1px solid !important;
-  }
-  .cbi-rowstyle-2 {
-    background-color: #1e1e1e;
-  }
-  .cbi-rowstyle-1 {
-    background-color: #252526;
-  }
-  .cbi-section > h3:first-child,
-  .panel-title {
-    color: #ccc;
-    border-bottom: 0;
-  }
-  .cbi-section-table .cbi-section-table-titles .cbi-section-table-cell {
-    background-color: #1e1e1f;
-  }
-  .cbi-button {
-    color: #ccc;
-    background-color: #252526;
-  }
-  .cbi-section-node {
-    background: none;
-    border-radius: 0 0 0.375rem 0.375rem;
-    padding: 0rem;
-  }
-  abbr {
-    color: #5e72e4;
-  }
-  div > table > tbody > tr:nth-of-type(2n),
-  div > .table > .tbody > .tr:nth-of-type(2n) {
-    background-color: #252526;
-  }
-  #content_syslog {
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
-  }
-  #syslog {
-    color: #ccc;
-    background-color: #1e1e1e;
-  }
-  #iwsvg,
-  #iwsvg2,
-  #bwsvg {
-    overflow: hidden;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
-    background-color: #1e1e1e !important;
-  }
-  .tabs {
-    background-color: #252526;
-  }
-  .tabs > li[class~="active"] > a {
-    color: #ccc;
-  }
-  .tabs > li[class~="active"],
-  .tabs > li:hover {
-    border-bottom: 0.18751rem solid darkslateblue;
-    color: #ccc;
-    background-color: #181819;
-  }
-  .cbi-tabmenu > li > a,
-  .tabs > li > a {
-    color: #ccc;
-  }
-  .cbi-tabmenu > li > a:hover,
-  .tabs > li > a:hover {
-    color: #ccc;
-  }
-  .cbi-tabmenu > li {
-    background: #2d2d2d;
-  }
-  .cbi-tabmenu {
-    border-bottom: 0px solid #ddd !important;
-  }
-  .cbi-tabmenu li[class~="cbi-tab"] a {
-    color: #ccc;
-  }
-  .cbi-tabmenu > li:hover {
-    color: #ccc;
-    background: #2d2d2d;
-  }
-  .cbi-tabmenu > li[class~="cbi-tab"] {
-    background-color: #181819;
-  }
-  .cbi-tabcontainer > .cbi-value:nth-of-type(2n) {
-    background-color: #252526;
-  }
-  .cbi-value-title {
-    color: #ccc;
-  }
-  select,
-  input {
-    color: #ccc;
-    background-color: transparent;
-    border: 1px solid #3c3c3c !important;
-    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.05);
-  }
-  select:not([multiple="multiple"]):focus,
-  input:focus {
-    border-color: darkslateblue !important;
-    background-color: transparent;
-    outline: 0;
-    box-shadow: none;
-  }
-  select {
-    background-color: #1e1e1e !important;
-  }
-  #cbi-dropbear h2,
-  #cbi-dropbear .cbi-map-descr,
-  #cbi-dropbear .cbi-map-descr abbr,
-  #cbi-rc h2,
-  #cbi-rc .cbi-map-descr,
-  #cbi-distfeedconf h2,
-  #cbi-distfeedconf .cbi-map-descr,
-  #cbi-customfeedconf h2,
-  #cbi-customfeedconf .cbi-map-descr,
-  #cbi-download h2,
-  #cbi-filelist h2 {
-    color: #ccc !important;
-  }
-  .cbi-value-field > ul > li .ifacebadge {
-    background-color: #3c3c3c;
-  }
-  .cbi-section-descr {
-    color: #ccc;
-  }
-  .cbi-input-textarea {
-    background-color: #1e1e1e;
-    color: #ccc;
-  }
-  .cbi-section-remove:nth-of-type(2n),
-  .cbi-section-node:nth-of-type(2n) {
-    background-color: #1e1e1e;
-  }
-  .node-system-packages > .main table tr td:nth-last-child(1) {
-    color: #ccc;
-  }
-  .cbi-section-node .cbi-value {
-    padding: 1rem 1rem 0.3rem 1rem;
-  }
-  .ifacebox {
-    background-color: none;
-    border: 1px solid #1e1e1e;
-  }
-  .ifacebox-head {
-    color: #666;
-  }
-  .ifacebox-body {
-    background-color: #333;
-  }
-  .zonebadge strong {
-    color: #333;
-  }
-  .zonebadge > .ifacebadge {
-    background-color: #3c3c3c;
-  }
-  div.cbi-value var,
-  td.cbi-value-field var {
-    color: #5e72e4;
-  }
-  #diag-rc-output > pre {
-    color: #ccc;
-    background-color: #1e1e1e;
-  }
-  .node-services-vssr .block {
-    background-color: #3c3c3c !important;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
-  }
-  .node-services-vssr .block h4 {
-    color: #ccc !important;
-  }
-  .node-services-vssr .status-bar {
-    color: #ccc;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
-    background-color: #1e1e1e;
-  }
-  .node-services-vssr .cbi-section-table-row {
-    color: #ccc;
-    background-color: #3c3c3c !important;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
-  }
-  .node-services-vssr .cbi-section-table-row.fast {
-    background: darkslateblue !important;
-    color: #fff;
-  }
-  .node-services-vssr .ssr-button {
-    color: #ccc;
-  }
-  .node-services-vssr .incon:nth-child(2) {
-    border-right: #1e1e1e 1px solid;
-  }
-  #xhr_poll_status > .label.success {
-    color: #ccc !important;
-    background-color: darkolivegreen !important;
-  }
-  .notice {
-    background-color: darkslateblue !important;
-  }
-  .cbi-input-find,
-  .cbi-input-save,
-  .cbi-button-add,
-  .cbi-button-save,
-  .cbi-button-find,
-  .cbi-input-reload,
-  .cbi-button-reload {
-    background-color: darkseagreen !important;
-    border-color: darkseagreen !important;
-  }
-  .cbi-button-reset,
-  .cbi-input-remove {
-    color: #fff !important;
-    background-color: darkorange !important;
-    border-color: darkorange !important;
-  }
-  .cbi-page-actions .cbi-button-apply,
-  .cbi-section-actions .cbi-button-edit,
-  .cbi-button-edit.important,
-  .cbi-button-apply.important,
-  .cbi-button-reload.important,
-  .cbi-button-action.important {
-    border: 1px darkslateblue solid !important;
-  }
-  fieldset[id^="cbi-apply-"] {
-    background-color: #333333;
-  }
-  #detail-bubble > div {
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    padding: 5px;
-    background: #252525;
-  }
-  .cbi-section-error {
-    color: darkorange;
-  }
-  @supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-    .login-page .login-container .login-form {
-      -webkit-backdrop-filter: blur(var(--blur-radius-dark));
-      backdrop-filter: blur(var(--blur-radius-dark));
-      background-color: rgba(0, 0, 0, var(--blur-opacity-dark));
-    }
-  }
-}
-@media (prefers-color-scheme: dark) and (max-width: 480px) {
-  .node-status-iptables > .main div > .cbi-map > form {
-    background-color: #1e1e1e;
-    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.35);
   }
 }
